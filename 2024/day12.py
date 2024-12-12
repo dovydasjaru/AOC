@@ -78,10 +78,9 @@ def getBulkPrice(garden: list[list[str, None]], start: tuple[int], checkedGarden
     area = 0
     sides = 0
     toCheck: list[tuple[int]] = [start]
-    walkedGarden = copy.deepcopy(checkedGarden)
-    for i in range(len(walkedGarden)):
-        for j in range(len(walkedGarden[i])):
-            walkedGarden[i][j] = False
+    walkedGarden: list[tuple[bool]] = []
+    for i in range(len(garden)):
+        walkedGarden.append([False] * len(garden[i]))
     checkedGarden[start[0]][start[1]] = True
     while len(toCheck) > 0:
         area += 1
