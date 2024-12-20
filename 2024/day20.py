@@ -41,13 +41,20 @@ def CheatAmount(weightedTrack: list[list[int, None]], start: tuple[int], end: tu
 def CountCheats(weightedTrack: list[list[int, None]], racePath: list[tuple[int]], cheatLength: int) -> dict[int, int]:
     cheats: dict[int, int] = {}
     for i in range(0, len(racePath) - 1):
-        for j in range(i + 1, len(racePath)):
+        j = i + 1
+        while j < len(racePath):
             cheat = CheatAmount(weightedTrack, racePath[i], racePath[j], cheatLength)
             if cheat != None:
                 if cheats.get(cheat, None) == None:
                     cheats[cheat] = 1
                 else:
                     cheats[cheat] += 1
+            else:
+                distance = abs(racePath[i][0] - racePath[j][0]) + abs(racePath[i][1] - racePath[j][1])
+                if distance > cheatLength:
+                    j += distance - cheatLength - 1
+            
+            j += 1
 
     return cheats
 
