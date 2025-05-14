@@ -22,24 +22,6 @@ def GetDifferences(sequence: list[int]) -> list[int]:
     return differences
 
 
-def ConvertToString(sequence: list[int]) -> str:
-    return "".join(map(str, sequence))
-
-
-def FindFirstOccurence(array: list[int], occurence: tuple[int]) -> int | None:
-    for i in range(len(array) - len(occurence) + 1):
-        allMatch = True
-        for j in range(len(occurence)):
-            if array[i + j] != occurence[j]:
-                allMatch = False
-                break
-
-        if allMatch:
-            return i
-    
-    return None
-
-
 def GeneratePossibleDifferences() -> set[tuple[int]]:
     sequences: list[tuple[int]] = []
     for i in range(100000):
