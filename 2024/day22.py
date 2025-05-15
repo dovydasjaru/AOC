@@ -51,14 +51,14 @@ def CalculateBananas(buyerInfo: list[dict[tuple[int], int]], testable: tuple[int
     return bananas
 
 
-def FindMostBananas(buyerInfo: list[dict[tuple[int], int]]) -> int:
+def FindMostBananas(buyerInfos: list[dict[tuple[int], int]]) -> int:
     currentMaximum = 0
     possibleDifferences = GeneratePossibleDifferences()
     prunedDifferences = pruneDifferences(possibleDifferences)
     print("Got all viable differences: ", len(prunedDifferences))
     
     for diff in prunedDifferences:
-        bananas = CalculateBananas(buyerInfo, diff)
+        bananas = CalculateBananas(buyerInfos, diff)
         if bananas > currentMaximum:
             currentMaximum = bananas
     
