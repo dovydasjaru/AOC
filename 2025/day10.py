@@ -1,4 +1,6 @@
 from itertools import combinations
+import z3
+import math
 
 
 class Machine:
@@ -37,6 +39,37 @@ def findFewestPressesIndicators(machine: Machine) -> int:
 
 
 def findFewestPressesJoltages(machine: Machine) -> int:
+  solver = z3.Optimize()
+
+  unknowns = [ z3.Int('x%s' % i) for i in range(len(machine.buttons)) ]
+  for u in unknowns:
+    solver.add(u >= 0)
+
+  for i in range(len(machine.joltage)):
+    buttonMultipliers = []
+    for button in machine.buttons:
+      if i in button:
+        buttonMultipliers.append(1)
+      else:
+        buttonMultipliers.append(0)
+    
+    summation = unknowns[0] * buttonMultipliers[0]
+    for j in range(1, len(machine.buttons)):
+      summation = z3.Sum(summation, unknowns[j] * buttonMultipliers[j])
+    solver.add(summation == machine.joltage[i])
+  
+  summation = unknowns[0]
+  for j in range(1, len(machine.buttons)):
+    summation = z3.Sum(summation, unknowns[j])
+  solver.minimize(summation)
+
+  solver.check()
+  model = solver.model()
+  presses = []
+  for u in unknowns:
+    presses.append(model[u].py_value())
+
+  return sum(presses)
 
 
 machines: list[Machine] = []
