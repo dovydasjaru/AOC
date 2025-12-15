@@ -39,7 +39,7 @@ def findInvalidIdExtra(scopes: list[tuple[int, int]]) -> list[int]:
 
 
 scopes = []
-for scope in open("input.txt").readline().strip().split(","):
+for scope in open("input2.txt").readline().strip().split(","):
   start, end = scope.split("-")
   scopes.append((int(start), int(end)))
 
